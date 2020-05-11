@@ -51,6 +51,8 @@ func NewVersion(s string) (*Version, error) {
 	return &out, nil
 }
 
+// Compare returns an integer comparing two version strings.
+// The result will be 0 if v==other, -1 if v < other, and +1 if v > other.
 func (v Version) Compare(other Version) int {
 	diffX := v.X - other.X
 	switch {
@@ -80,4 +82,29 @@ func (v Version) Compare(other Version) int {
 		return -1
 	}
 	return 0
+}
+
+// Compare returns an integer comparing two version strings.
+// The result will be 0 if x==y, -1 if x < y, and +1 if x > y.
+// An error is returned, if version string can't be parsed.
+func Compare(x, y string) (int, error) {
+	xv, err := NewVersion(x)
+	if err != nil {
+		return 0, err
+	}
+	yv, err := NewVersion(y)
+	if err != nil {
+		return 0, err
+	}
+	return xv.Compare(*yv), nil
+}
+
+// MustCompare returns an integer comparing two version strings.
+// The result will be 0 if x==y, -1 if x < y, and +1 if x > y.
+func MustCompare(x, y string) int {
+	result, err := Compare(x, y)
+	if err != nil {
+		panic(err)
+	}
+	return result
 }
