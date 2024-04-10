@@ -1,6 +1,8 @@
 module kmodules.xyz/apiversion
 
-go 1.14
+go 1.22.0
+
+toolchain go1.22.2
 
 replace github.com/satori/go.uuid => github.com/gomodules/uuid v4.0.0+incompatible
 
